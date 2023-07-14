@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            搭建Hexo博客
+            搭建Hexo博客并使用GitHub托管和自定义域名
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -37,7 +37,7 @@
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">搭建Hexo博客</h1>
+                <h1 class="header-subtitle">搭建Hexo博客并使用GitHub托管和自定义域名</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
@@ -45,7 +45,7 @@
                         </span>
                         
                             
-                                <span id="/2023/07/14/搭建Hexo博客/" class="leancloud_visitors" data-flag-title="搭建Hexo博客">
+                                <span id="/2023/07/14/搭建Hexo博客/" class="leancloud_visitors" data-flag-title="搭建Hexo博客并使用GitHub托管和自定义域名">
                                     <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                                 </span>
                             
@@ -70,7 +70,61 @@
         <div id="article">
             <div class="toc"></div>
             <div class="article-body">
-                
+                <h2 id="一、安装并且启动Hexo"><a href="#一、安装并且启动Hexo" class="headerlink" title="一、安装并且启动Hexo"></a>一、安装并且启动Hexo</h2><h3 id="1、安装git和node"><a href="#1、安装git和node" class="headerlink" title="1、安装git和node"></a>1、安装git和node</h3><p>   git: <a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com/</a></p>
+<p>  node:<a target="_blank" rel="noopener" href="https://nodejs.org/en">https://nodejs.org/en</a></p>
+<h3 id="2、安装Hexo"><a href="#2、安装Hexo" class="headerlink" title="2、安装Hexo"></a>2、安装Hexo</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、创建Hexo项目"><a href="#3、创建Hexo项目" class="headerlink" title="3、创建Hexo项目"></a>3、创建Hexo项目</h3><p>在终端中运行以下命令来创建一个新的 Hexo 项目。这里的 <code>myblog</code> 是你的博客目录，你可以换成你自己喜欢的名字：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br><span class="line">cd myblog</span><br><span class="line">npm install</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">这个命令会在当前目录下创建一个 `myblog` 目录，所有博客的文件都存放在这个目录中。</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、生成静态文件"><a href="#4、生成静态文件" class="headerlink" title="4、生成静态文件"></a>4、生成静态文件</h3><p>hexo generate</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">这个命令会在 `public` 目录中生成静态文件。你可以使用任何静态服务器来部署这个目录。</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、启动服务器"><a href="#5、启动服务器" class="headerlink" title="5、启动服务器"></a>5、启动服务器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">这个命令会启动一个服务器，你可以在浏览器中输入 `http://localhost:4000` 来预览你的博客。</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、使用github-page托管"><a href="#二、使用github-page托管" class="headerlink" title="二、使用github page托管"></a>二、使用github page托管</h2><p>​	Hexo是静态页面,可以使用github托管hexo项目,使用github用自定义域名不用备案,因为github服务器不是在国内的</p>
+<h3 id="1、在-config-yml-文件中添加以下内容"><a href="#1、在-config-yml-文件中添加以下内容" class="headerlink" title="1、在 _config.yml 文件中添加以下内容"></a>1、在 <code>_config.yml</code> 文件中添加以下内容</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt;</span><br><span class="line">  branch: gh-pages</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">其中，`&lt;repository url&gt;` 是你的 GitHub 仓库的 URL。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、修改url和root"><a href="#2、修改url和root" class="headerlink" title="2、修改url和root"></a>2、修改url和root</h3><p>在你的 Hexo 配置文件 <code>_config.yml</code> 中，确保 <code>url</code> 和 <code>root</code> 的设置正确。<code>url</code> 应设置为你的 GitHub Pages 网址，<code>root</code> 应设置为你的 GitHub Pages 仓库名。</p>
+<p>例如，如果你的 GitHub 用户名是 <code>username</code>，你的仓库名是 <code>repo</code>，那么你的配置应该类似于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: https://username.github.io/repo</span><br><span class="line">root: /repo/</span><br></pre></td></tr></table></figure>
+
+<p>如果你的 Hexo 博客直接托管在 <code>&lt;username&gt;.github.io</code> 下，那么 <code>root</code> 应设置为 <code>/</code>：</p>
+<h3 id="2、安装-hexo-deployer-git-插件："><a href="#2、安装-hexo-deployer-git-插件：" class="headerlink" title="2、安装 hexo-deployer-git 插件："></a>2、安装 <code>hexo-deployer-git</code> 插件：</h3><p>​	 进入项目根目录,执行下面命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、运行以下命令来部署你的博客："><a href="#3、运行以下命令来部署你的博客：" class="headerlink" title="3、运行以下命令来部署你的博客："></a>3、运行以下命令来部署你的博客：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、访问"><a href="#4、访问" class="headerlink" title="4、访问"></a>4、访问</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://&lt;username&gt;.github.io/&lt;repository&gt;/</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、注意实现"><a href="#5、注意实现" class="headerlink" title="5、注意实现"></a>5、注意实现</h3><p>​	(1): 仓库要设置为public、私有仓库使用github page 要收费</p>
+<p>​    (2): 设置部署分支</p>
+<p><img src="/assets/image-20230714142244315.png" alt="image-20230714142244315"></p>
+<p>(3)、如果样式失效</p>
+<p>​	1、查看_config.yml 文件中 url 和 root 配置是否正确</p>
+<p>​    2、清空缓存重新部署</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、配置自定义域名"><a href="#三、配置自定义域名" class="headerlink" title="三、配置自定义域名"></a>三、配置自定义域名</h2><h3 id="1、添加-CNAME-文件"><a href="#1、添加-CNAME-文件" class="headerlink" title="1、添加 CNAME 文件"></a>1、添加 CNAME 文件</h3><p>​			创建一个名为 <code>CNAME</code> 的新文件(没有扩展名),放在根目录resorce目录下,在这个文件中，写入你的自定义域名：</p>
+<p>​	例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zykpro.cn</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、配置DNS"><a href="#2、配置DNS" class="headerlink" title="2、配置DNS"></a>2、配置DNS</h3><p>​	添加类型为A的DNS解析记录</p>
+<ul>
+<li>185.199.108.153</li>
+<li>185.199.109.153</li>
+<li>185.199.110.153</li>
+<li>185.199.111.153</li>
+</ul>
+<p>如果你的域名支持 <code>www</code> 子域名，你还需要添加一条类型为 <code>CNAME</code> 的 DNS 记录，将 <code>www</code> 子域名指向你的 GitHub Pages 域名（例如，<code>username.github.io</code>）。</p>
+<h3 id="3、修改-config-yml-配置文件"><a href="#3、修改-config-yml-配置文件" class="headerlink" title="3、修改_config_yml 配置文件"></a>3、修改_config_yml 配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: http://zykpro.cn</span><br><span class="line">root: /</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、清空缓存重新部署"><a href="#4、清空缓存重新部署" class="headerlink" title="4、清空缓存重新部署"></a>4、清空缓存重新部署</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、配置图片"><a href="#四、配置图片" class="headerlink" title="四、配置图片"></a>四、配置图片</h2><p>md文件插入图片使用的是路径获取的，如果没有正确设置路径，在hexo页面上是看到不图片的，可以结合Typora软件配置</p>
+<h3 id="1、修改Typora文件保存路径"><a href="#1、修改Typora文件保存路径" class="headerlink" title="1、修改Typora文件保存路径"></a>1、修改Typora文件保存路径</h3><p>把图片放在resource文件夹下面就可以访问到了、这样在md文件添加图片，图片就会自动保存到assets文件夹下面</p>
+<p><img src="/../assets/image-20230715060124229.png" alt="image-20230715060124229"></p>
+
                 
                 <p class="end">__END__</p>
             </div>
@@ -82,7 +136,7 @@
     <div class="suffix-box-right">
         <span class="suffix-box-title">文章作者：</span>Live For Code
         <br>
-        <span class="suffix-box-title">文章出处：</span><a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/" target="_blank">搭建Hexo博客</a>
+        <span class="suffix-box-title">文章出处：</span><a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/" target="_blank">搭建Hexo博客并使用GitHub托管和自定义域名</a>
         <br>
         <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
         <br>
@@ -97,8 +151,6 @@
                 
                 <div class="article-prev-next">
                     
-                    
-                        <a href="/2023/07/14/hello-world/" class="next-prefix">» </a> 下一篇：    <a href="/2023/07/14/hello-world/" title="发布于 2023-07-14 10:09">Hello World</a>
                     
                 </div>
             </div>
