@@ -97,18 +97,20 @@
 
 <h3 id="4、访问"><a href="#4、访问" class="headerlink" title="4、访问"></a>4、访问</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://&lt;username&gt;.github.io/&lt;repository&gt;/</span><br></pre></td></tr></table></figure>
 
-<h3 id="5、注意实现"><a href="#5、注意实现" class="headerlink" title="5、注意实现"></a>5、注意实现</h3><p>​	(1): 仓库要设置为public、私有仓库使用github page 要收费</p>
+<h3 id="5、注意事项"><a href="#5、注意事项" class="headerlink" title="5、注意事项"></a>5、注意事项</h3><p>​	(1): 仓库要设置为public、私有仓库使用github page 要收费</p>
 <p>​    (2): 设置部署分支</p>
-<p><img src="/assets/image-20230714142244315.png" alt="image-20230714142244315"></p>
+<p><img src="/../assets/image-20230714142244315.png" alt="image-20230714142244315"></p>
 <p>(3)、如果样式失效</p>
 <p>​	1、查看_config.yml 文件中 url 和 root 配置是否正确</p>
 <p>​    2、清空缓存重新部署</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
 
 <h2 id="三、配置自定义域名"><a href="#三、配置自定义域名" class="headerlink" title="三、配置自定义域名"></a>三、配置自定义域名</h2><h3 id="1、添加-CNAME-文件"><a href="#1、添加-CNAME-文件" class="headerlink" title="1、添加 CNAME 文件"></a>1、添加 CNAME 文件</h3><p>​			创建一个名为 <code>CNAME</code> 的新文件(没有扩展名),放在根目录resorce目录下,在这个文件中，写入你的自定义域名：</p>
-<p>​	例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zykpro.cn</span><br></pre></td></tr></table></figure>
+<p>​	例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zykpro.cn	</span><br></pre></td></tr></table></figure>
 
+<p>​	不要加域名前缀、比如https:&#x2F;&#x2F;, 部署后查看github仓库CNAME文件，如果内容为空检查<code>CNAME</code> 文件应该放在 <code>source</code> 目录下，这样在生成网站时，它会被复制到<code>public</code> 目录。如果你的 <code>CNAME</code> 文件位于其他地方，可能就会在生成网站时丢失。如果还是为空，手动在public文件夹中CNAME文件添加，然后直接部署（不要执行clean和generate命令）</p>
+<p><img src="/../assets/image-20230715123741439.png" alt="image-20230715123741439"></p>
 <h3 id="2、配置DNS"><a href="#2、配置DNS" class="headerlink" title="2、配置DNS"></a>2、配置DNS</h3><p>​	添加类型为A的DNS解析记录</p>
 <ul>
 <li>185.199.108.153</li>
@@ -121,7 +123,7 @@
 
 <h3 id="4、清空缓存重新部署"><a href="#4、清空缓存重新部署" class="headerlink" title="4、清空缓存重新部署"></a>4、清空缓存重新部署</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
 
-<h2 id="四、配置图片"><a href="#四、配置图片" class="headerlink" title="四、配置图片"></a>四、配置图片</h2><p>md文件插入图片使用的是路径获取的，如果没有正确设置路径，在hexo页面上是看到不图片的，可以结合Typora软件配置</p>
+<h2 id="四、部署后图片加载失败"><a href="#四、部署后图片加载失败" class="headerlink" title="四、部署后图片加载失败"></a>四、部署后图片加载失败</h2><p>md文件插入图片使用的是路径获取的，如果没有正确设置路径，在hexo页面上是看到不图片的，可以结合Typora软件配置</p>
 <h3 id="1、修改Typora文件保存路径"><a href="#1、修改Typora文件保存路径" class="headerlink" title="1、修改Typora文件保存路径"></a>1、修改Typora文件保存路径</h3><p>把图片放在resource文件夹下面就可以访问到了、这样在md文件添加图片，图片就会自动保存到assets文件夹下面</p>
 <p><img src="/../assets/image-20230715060124229.png" alt="image-20230715060124229"></p>
 
