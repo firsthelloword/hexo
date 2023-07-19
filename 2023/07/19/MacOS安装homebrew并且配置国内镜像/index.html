@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            归档
+            MacOS安装homebrew并且配置国内镜像
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,32 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">归档</h1>
+                <h1 class="header-subtitle">MacOS安装homebrew并且配置国内镜像</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2023-07-19
+                        </span>
+                        
+                            
+                                <span id="/2023/07/19/MacOS安装homebrew并且配置国内镜像/" class="leancloud_visitors" data-flag-title="MacOS安装homebrew并且配置国内镜像">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2023/07/19/MacOS安装homebrew并且配置国内镜像/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                    
                 </div>
             
         </div>
@@ -49,47 +66,68 @@
 </div>
 <div id="container">
     
-        
-            <!-- 归档页面、分类归档页面、标签归档页面 -->
-            <div class="articles">
-                <div class="articles-wrap">
-                    <span class="archive-move-on"></span>
-                    <span class="archive-counter">
-                        
-                            目前共计 2 篇日志，继续加油！
-                        
-                    </span>
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h2 id="一、安装homebrew"><a href="#一、安装homebrew" class="headerlink" title="一、安装homebrew"></a>一、安装homebrew</h2><p>如果命令失败进入官网查看<a target="_blank" rel="noopener" href="https://brew.sh/">https://brew.sh/</a></p>
+<p>执行下面命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、配置homebrew"><a href="#二、配置homebrew" class="headerlink" title="二、配置homebrew"></a>二、配置homebrew</h2><h3 id="1、在配置文件中添加配置"><a href="#1、在配置文件中添加配置" class="headerlink" title="1、在配置文件中添加配置"></a>1、在配置文件中添加配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#如果您使用的是 Bash 而不是 Zsh，可以替换为 .bash_profile 或 .bashrc</span><br><span class="line">vi  ~/.zshrc</span><br><span class="line"># 不存在就添加到文件中</span><br><span class="line">export PATH=&quot;/usr/local/bin:$PATH&quot;</span><br><span class="line">#刷新配置</span><br><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、查看是否安装cask和core"><a href="#2、查看是否安装cask和core" class="headerlink" title="2、查看是否安装cask和core"></a>2、查看是否安装cask和core</h3><p>​       如果找不到Taps目录则没有安装，需要手动安装cask和core</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ls /opt/homebrew/Library/Taps/homebrew</span><br><span class="line"></span><br><span class="line"># 如果显示一下三个就安装了</span><br><span class="line">homebrew-cask    homebrew-core        homebrew-services</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install homebrew-cask</span><br><span class="line">brew install homebrew-core</span><br></pre></td></tr></table></figure>
+
+<p>​		安装后重新查看目录是否存在</p>
+<h2 id="三、配置国内镜像"><a href="#三、配置国内镜像" class="headerlink" title="三、配置国内镜像"></a>三、配置国内镜像</h2><h3 id="1、修改镜像源"><a href="#1、修改镜像源" class="headerlink" title="1、修改镜像源"></a>1、修改镜像源</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 替换 Homebrew</span><br><span class="line">git -C &quot;$(brew --repo)&quot; remote set-url origin https://mirrors.ustc.edu.cn/brew.git</span><br><span class="line"></span><br><span class="line"># 替换 Homebrew Core</span><br><span class="line">git -C &quot;$(brew --repo homebrew/core)&quot; remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git</span><br><span class="line"></span><br><span class="line"># 替换 Homebrew Cask</span><br><span class="line">git -C &quot;$(brew --repo homebrew/cask)&quot; remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git</span><br><span class="line"></span><br><span class="line"># 替换 Homebrew-bottles</span><br><span class="line">echo &#x27;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles&#x27; &gt;&gt; ~/.bash_profile</span><br><span class="line">source ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo &#x27;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles&#x27; &gt;&gt; ~/.zshrc</span><br><span class="line">source ~/.zshrc</span><br><span class="line"></span><br><span class="line">#更新配置</span><br><span class="line">brew update</span><br></pre></td></tr></table></figure>
+
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="Live For Code">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>Live For Code
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/2023/07/19/MacOS%E5%AE%89%E8%A3%85homebrew%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F/" target="_blank">MacOS安装homebrew并且配置国内镜像</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                
+                <div class="article-prev-next">
                     
                     
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2023</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/19/MacOS%E5%AE%89%E8%A3%85homebrew%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F/"><span>MacOS安装homebrew并且配置国内镜像</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-19</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/"><span>搭建Hexo博客并使用GitHub托管和自定义域名</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-14</span>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/" class="next-prefix">» </a> 下一篇：    <a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/" title="发布于 2023-07-14 10:12">搭建Hexo博客并使用GitHub托管和自定义域名</a>
                     
                 </div>
             </div>
             
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
@@ -127,7 +165,7 @@
                     
                         <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
                     
-                        <li class=" active "><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
+                        <li class=""><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
                     
                         <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
                     
