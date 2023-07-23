@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            使用docker+shell脚本部署项目
+            使用frp搭建内网穿透
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -37,21 +37,21 @@
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">使用docker+shell脚本部署项目</h1>
+                <h1 class="header-subtitle">使用frp搭建内网穿透</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
-                            <i class="iconfont icon-time"></i> 发表时间：2023-07-19
+                            <i class="iconfont icon-time"></i> 发表时间：2023-07-23
                         </span>
                         
                             
-                                <span id="/2023/07/19/使用docker-shell脚本部署/" class="leancloud_visitors" data-flag-title="使用docker+shell脚本部署项目">
+                                <span id="/2023/07/23/使用frp搭建内网穿透/" class="leancloud_visitors" data-flag-title="使用frp搭建内网穿透">
                                     <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                                 </span>
                             
                             
                                 <span>
-                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2023/07/19/使用docker-shell脚本部署/"></span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2023/07/23/使用frp搭建内网穿透/"></span>
                                 </span>
                               
                         
@@ -70,17 +70,44 @@
         <div id="article">
             <div class="toc"></div>
             <div class="article-body">
-                <h2 id="一、部署Springboot项目"><a href="#一、部署Springboot项目" class="headerlink" title="一、部署Springboot项目"></a>一、部署Springboot项目</h2><h3 id="1、添加Dockerfile文件"><a href="#1、添加Dockerfile文件" class="headerlink" title="1、添加Dockerfile文件"></a>1、添加Dockerfile文件</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用官方的 Maven 镜像作为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> maven:<span class="number">3.8</span>.<span class="number">5</span>-openjdk-<span class="number">17</span> AS build</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将项目代码复制到容器中</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> pom.xml .</span></span><br><span class="line"><span class="comment"># 下载依赖，缓存，加快下次部署速度</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> mvn dependency:go-offline</span></span><br><span class="line"><span class="comment"># 构建项目</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./src ./src</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> mvn clean install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用官方的 OpenJDK 镜像作为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> azul/zulu-openjdk-alpine:<span class="number">17</span>-jre</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将构建好的 Spring Boot 应用复制到容器中</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=build /app/target/*.jar /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暴露端口，根据实际的 Spring Boot 应用端口进行修改</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8881</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Spring Boot 应用</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+                <h3 id="一、配置说明"><a href="#一、配置说明" class="headerlink" title="一、配置说明"></a>一、配置说明</h3><p>参考文档：<a target="_blank" rel="noopener" href="https://gofrp.org/docs/examples/ssh/">https://gofrp.org/docs/examples/ssh/</a></p>
+<p>下面以配置外网设备通过ssh连接内网设备为例</p>
+<p>为什么要配置内网穿透？</p>
+<p>1.一般个人用户的宽带服务商是没有给公网ip的，所以外网设备无法访问到内网设备，因为ipv4现在不够用了，运营商不会主动给你公网ip。</p>
+<p>2.访问内网设备可以用云服务器（用公网ip）做流量转发，内网设备监听（绑定）服务器端口，只要我们想服务器指定端口发送请求，服务器就把这个流量转发到内网设备，frp就是帮我们做这个事的</p>
+<p>资源准备</p>
+<p>内网主机、云服务器（有公网ip）</p>
+<h3 id="二、安装frp"><a href="#二、安装frp" class="headerlink" title="二、安装frp"></a>二、安装frp</h3><p>内网设备和云服务器都要安装</p>
+<h4 id="1、云服务器安装"><a href="#1、云服务器安装" class="headerlink" title="1、云服务器安装"></a>1、云服务器安装</h4><p>1.1.github上面下载传到服务器上</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
+<p><img src="/../assets/image-20230723191020475.png" alt="image-20230723191020475"></p>
+<p>1.2.解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf frp_0.37.1_darwin_amd64.tar.gz</span><br></pre></td></tr></table></figure>
 
-<h3 id="2、编写sheel脚本"><a href="#2、编写sheel脚本" class="headerlink" title="2、编写sheel脚本"></a>2、编写sheel脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">//停止容器</span><br><span class="line">docker stop system-show-container</span><br><span class="line">//删除容器</span><br><span class="line">docker rm system-show-container</span><br><span class="line">//删除镜像</span><br><span class="line">docker rmi system-show</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">拉取代码根据实际分支配置</span></span><br><span class="line">git pull origin master</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入项目目录</span></span><br><span class="line">cd project-show </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 Docker 构建镜像 .代表当前目录 根据实际Dockerfile文件配置</span></span><br><span class="line">docker build -t system-show .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行 Docker 容器</span></span><br><span class="line">docker run -d -p 8881:8881 --name system-show-container system-show</span><br></pre></td></tr></table></figure>
+<p>1.3.配置frpc</p>
+<p>进入文件目录，修改frps.ini 文件</p>
+<p>置了 frp 服务器用户接收客户端连接的端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000 </span><br></pre></td></tr></table></figure>
 
-<h2 id="二、部署vue3-vite项目"><a href="#二、部署vue3-vite项目" class="headerlink" title="二、部署vue3+vite项目"></a>二、部署vue3+vite项目</h2><h3 id="1、编写Dockerfile文件"><a href="#1、编写Dockerfile文件" class="headerlink" title="1、编写Dockerfile文件"></a>1、编写Dockerfile文件</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:lts as build-stage</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> package*.json ./</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install yarn</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="comment">#使用yarn加快速度</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> yarn run build</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> nginx:stable</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置nginx、默认nginx配置没有正确地处理 Vue Router 的历史模式</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=build-stage /app/dist /usr/share/nginx/html</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> nginx.conf /etc/nginx/conf.d/default.conf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;nginx&quot;</span>, <span class="string">&quot;-g&quot;</span>, <span class="string">&quot;daemon off;&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<h4 id="2、内网服务安装"><a href="#2、内网服务安装" class="headerlink" title="2、内网服务安装"></a>2、内网服务安装</h4><p>2.1 下载frp，根据系统下载</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
+<p>这里以macOS为例</p>
+<p><img src="/../assets/image-20230723192017182.png" alt="image-20230723192017182"></p>
+<p>2.2 修改配置</p>
+<p>解压进入目录，修改 frpc.ini 文件</p>
+<p>x.x.x.x 为公网ip</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
 
-<h3 id="2、添加Nginx配置文件"><a href="#2、添加Nginx配置文件" class="headerlink" title="2、添加Nginx配置文件"></a>2、添加Nginx配置文件</h3><p>​       默认Nginx 没有正确地处理 Vue Router 的历史模式</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、分别启动frps、frpc"><a href="#三、分别启动frps、frpc" class="headerlink" title="三、分别启动frps、frpc"></a>三、分别启动frps、frpc</h3><p>云服务器启动frps、内网设备启动frps</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./frps</span><br><span class="line">./frpc </span><br></pre></td></tr></table></figure>
 
-<h3 id="3、添加shell脚本"><a href="#3、添加shell脚本" class="headerlink" title="3、添加shell脚本"></a>3、添加shell脚本</h3><p>​    </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker stop system-show-font-vue</span><br><span class="line">docker rm system-show-font-vue</span><br><span class="line">docker rmi system-show-font-vue</span><br><span class="line"></span><br><span class="line">git pull origin master</span><br><span class="line"></span><br><span class="line">cd project-font-vue</span><br><span class="line"></span><br><span class="line">docker build -t system-show-font-vue .</span><br><span class="line">docker run -d -p 80:80 --name system-show-font-vue system-show-font-vue</span><br></pre></td></tr></table></figure>
+<h3 id="四、通过ssh访问内网设备"><a href="#四、通过ssh访问内网设备" class="headerlink" title="四、通过ssh访问内网设备"></a>四、通过ssh访问内网设备</h3><ol>
+<li><p>通过 SSH 访问内网机器，假设用户名为 test：</p>
+<p><code>ssh -oPort=6000 test@x.x.x.x</code></p>
+<p>frp 会将请求 <code>x.x.x.x:6000</code> 的流量转发到内网机器的 22 端口。</p>
+</li>
+</ol>
+<p>tes对应的是内网服务器用户名、输入密码也是内网服务器密码，不是云服务器密码</p>
 
                 
                 <p class="end">__END__</p>
@@ -93,7 +120,7 @@
     <div class="suffix-box-right">
         <span class="suffix-box-title">文章作者：</span>Live For Code
         <br>
-        <span class="suffix-box-title">文章出处：</span><a href="/2023/07/19/%E4%BD%BF%E7%94%A8docker-shell%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/" target="_blank">使用docker+shell脚本部署项目</a>
+        <span class="suffix-box-title">文章出处：</span><a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" target="_blank">使用frp搭建内网穿透</a>
         <br>
         <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
         <br>
@@ -108,11 +135,8 @@
                 
                 <div class="article-prev-next">
                     
-                        <a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" class="prev-prefix">« </a> 上一篇：    <a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" title="发布于 2023-07-23 06:47">使用frp搭建内网穿透</a>
-                        <br>
                     
-                    
-                        <a href="/2023/07/19/MacOS%E5%AE%89%E8%A3%85homebrew%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F/" class="next-prefix">» </a> 下一篇：    <a href="/2023/07/19/MacOS%E5%AE%89%E8%A3%85homebrew%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F/" title="发布于 2023-07-19 09:34">MacOS安装homebrew并且配置国内镜像</a>
+                        <a href="/2023/07/19/%E4%BD%BF%E7%94%A8docker-shell%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/" class="next-prefix">» </a> 下一篇：    <a href="/2023/07/19/%E4%BD%BF%E7%94%A8docker-shell%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/" title="发布于 2023-07-19 06:30">使用docker+shell脚本部署项目</a>
                     
                 </div>
             </div>
