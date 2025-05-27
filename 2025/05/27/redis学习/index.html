@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            归档
+            
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,32 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">归档</h1>
+                <h1 class="header-subtitle"></h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2025-05-27
+                        </span>
+                        
+                            
+                                <span id="/2025/05/27/redis学习/" class="leancloud_visitors" data-flag-title="">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2025/05/27/redis学习/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                    
                 </div>
             
         </div>
@@ -49,82 +66,83 @@
 </div>
 <div id="container">
     
-        
-            <!-- 归档页面、分类归档页面、标签归档页面 -->
-            <div class="articles">
-                <div class="articles-wrap">
-                    <span class="archive-move-on"></span>
-                    <span class="archive-counter">
-                        
-                            目前共计 5 篇日志，继续加油！
-                        
-                    </span>
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h3 id="一、String"><a href="#一、String" class="headerlink" title="一、String"></a>一、String</h3><h4 id="1-1数据结构：简单动态字符串（SDS）"><a href="#1-1数据结构：简单动态字符串（SDS）" class="headerlink" title="1.1数据结构：简单动态字符串（SDS）"></a>1.1数据结构：简单动态字符串（SDS）</h4><h4 id="1-2局限：最大值不能超过512M"><a href="#1-2局限：最大值不能超过512M" class="headerlink" title="1.2局限：最大值不能超过512M"></a>1.2局限：最大值不能超过512M</h4><h4 id="1-3命令"><a href="#1-3命令" class="headerlink" title="1.3命令"></a>1.3命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 浮点数</span><br><span class="line">incrbyfloat key increment </span><br><span class="line">incrbyfloat zyk 0.1</span><br><span class="line"></span><br><span class="line"># 字符串追加</span><br><span class="line">append key value</span><br><span class="line"></span><br><span class="line">#获取值后删除</span><br><span class="line">getdel key</span><br><span class="line"></span><br><span class="line"># 获取相似字符串，字符串不用相邻（redis 7.0）</span><br><span class="line">MSET key1 ohmytext key2 mynewtext</span><br><span class="line">LCS key1 key2 # 结果 mytext</span><br><span class="line"></span><br><span class="line"># 全部key不存在才会设置成功</span><br><span class="line">msetex key value key2 value</span><br><span class="line"></span><br><span class="line"># value 字符串截取 start end 都包括</span><br><span class="line">getrange key start end</span><br><span class="line"></span><br><span class="line">#获取上次值并设置为新值</span><br><span class="line">getset key value</span><br><span class="line"></span><br><span class="line">#字符串替换，offset如果超过用空字符代替</span><br><span class="line">setrange key offset value</span><br><span class="line">&quot;hello\x00\x00\x00\x00\x00world&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><p>以二进制存储在树结构中，支持快速访问</p>
+<h3 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h3><h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><h3 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h3><p>4.1 底层数据结构</p>
+<p>链表和跳跃表,如果元素大于128或者大小大于64字节就采用跳跃表</p>
+<p>跳跃表采用多级索引实现</p>
+<p>4.2 实现排行榜</p>
+<p>按照票数和时间方案</p>
+<p>使用票数.时间戳保存方案 比如 10.1747798719960 ，10代表10票，小数点后面代表最后投票时间</p>
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><h4 id="blmove-一个列表元素移到另一个列表阻塞移动"><a href="#blmove-一个列表元素移到另一个列表阻塞移动" class="headerlink" title="blmove 一个列表元素移到另一个列表阻塞移动"></a>blmove 一个列表元素移到另一个列表阻塞移动</h4><p>blmove source destination left|right left|right timeout</p>
+<h3 id="geo"><a href="#geo" class="headerlink" title="geo"></a>geo</h3><p>底层数据结构zset，geo未提供删除命令，可以用zrem删除</p>
+<p>7、统计UV</p>
+<h3 id="Hyperloglog"><a href="#Hyperloglog" class="headerlink" title="Hyperloglog"></a>Hyperloglog</h3><p>pfadd key member 添加元素 会自动去重</p>
+<p>pfcount  key 统计uv</p>
+<p>MySQL索引失效</p>
+<p>1、不符合最左匹配原则</p>
+<p>2、辨识度太低，比如男女</p>
+<p>3、类型错误，比如varchar类型 但是where条件是  name &#x3D; 1</p>
+<p>4、使用了 or </p>
+<p>5、in 如果值少了话会走，多的话不会走，</p>
+<p>6、列运算 比如 age + 1 &#x3D; 12 不会走索引，age &#x3D; 12 -1 走索引</p>
+<p>7、使用函数</p>
+<p>8、使用is not null ，is null 会走索引</p>
+<p>限流算法</p>
+<p>1、固定窗口限流，每个窗口再一定时间请求量固定，如果超过就丢弃</p>
+<p>问题  如果限流1000，如果再100ms到达一千，后面请求丢弃，服务异常时间太长，可能会两倍突发流量</p>
+<p>2、滑动窗口，将窗口划分为几个小窗口，按照一定时间往前移，如果超过时间，其他请求丢弃</p>
+<p>3、令牌</p>
+<p>4、漏斗</p>
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="Live For Code">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>Live For Code
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/2025/05/27/redis%E5%AD%A6%E4%B9%A0/" target="_blank"></a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                
+                <div class="article-prev-next">
                     
                     
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2025</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2025/05/27/redis%E5%AD%A6%E4%B9%A0/"><span></span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">05-27</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2023</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"><span>使用frp搭建内网穿透</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-23</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/19/%E4%BD%BF%E7%94%A8docker-shell%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/"><span>使用docker+shell脚本部署项目</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-19</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/19/MacOS%E5%AE%89%E8%A3%85homebrew%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F/"><span>MacOS安装homebrew并且配置国内镜像</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-19</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/2023/07/14/%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/"><span>搭建Hexo博客并使用GitHub托管和自定义域名</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-14</span>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" class="next-prefix">» </a> 下一篇：    <a href="/2023/07/23/%E4%BD%BF%E7%94%A8frp%E6%90%AD%E5%BB%BA%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" title="发布于 2023-07-23 06:47">使用frp搭建内网穿透</a>
                     
                 </div>
             </div>
             
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
@@ -162,7 +180,7 @@
                     
                         <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
                     
-                        <li class=" active "><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
+                        <li class=""><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
                     
                         <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
                     
