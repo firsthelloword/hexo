@@ -1,729 +1,561 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <meta name="referrer" content="origin">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="Cache-Control" content="no-transform">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="The Redefine Team">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://zykpro.cn/category/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="分类">
+<meta property="og:url" content="http://zykpro.cn/category/index.html">
+<meta property="og:site_name" content="z随笔">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://zykpro.cn/images/redefine-og.webp">
+<meta property="article:published_time" content="2019-12-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-14T04:10:11.907Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zykpro.cn/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
     <title>
         
-            分类
+            分类 | Theme Redefine
         
     </title>
-    <link rel="shortcut icon" href="#"/>
 
-    <link type="text/css" rel="stylesheet" href="/font/LongCang.css">
-    <link type="text/css" rel="stylesheet" href="/font/Monda.css">
-    <link type="text/css" rel="stylesheet" href="/font/NotoSansSC.css">
-    <link type="text/css" rel="stylesheet" href="/font/NotoSerifSC.css">
-    <link type="text/css" rel="stylesheet" href="/font/Playball.css">
-    <link type="text/css" rel="stylesheet" href="/font/PTMono.css">
-    <link type="text/css" rel="stylesheet" href="/font/Roboto.css">
-    <link type="text/css" rel="stylesheet" href="/font/RobotoSlab.css">
-    <link type="text/css" rel="stylesheet" href="/font/Rosario.css">
-    <link type="text/css" rel="stylesheet" href="/font/UbuntuMono.css">
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
-    <link type="text/css" rel="stylesheet" href="/css/base.css">
-    <link type="text/css" rel="stylesheet" href="/css/code.css">
 
-    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"zykpro.cn","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 6.3.0"></head>
+
+
 <body>
-    <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/page.css">
-<div id="header" class="header">
-    <div class="vertical">
-        <div class="inner">
-            
-                <h1 class="header-subtitle">分类</h1>
-                <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
-                </div>
-            
-        </div>
-    </div>
-    
-</div>
-<div id="container">
-    
-        <!-- 独立页面 -->
-        
-            <div class="categories">
-                <div class="categories-title">
-                    暂无分类
-                </div>
-                <div class="categories-content">
-                    
-                </div>
-            </div>
-        
-    
-</div>
-    <div id="footer">
-    <div><span class='face'>ღゝ◡╹)ノ♡</span></div><div>【人生若只如初见<span><i class='iconfont icon-like-fill'></i></span>何事秋风悲画扇】</div><div>&copy; 2020-2023 WorstOne. All Rights Reserved.</div>
-</div>
-    <div id="sidebar">
-    <div class="menu-wrap" style="display:none;">
-        
-            <div class="menu-notice">
-                <span class="iconfont icon-notice"></span>
-                <div class="notice">
-                    <span>简单地活着，肆意而又精彩！</span>
-                </div>
-            </div>
-        
-        <nav class="menu">
-            <div class="menu-introduce"> 
-                <div class="introduce-avatar">
-                    <img src="/image/sidebar/avatar.jpg">
-                </div> 
-                <div class="introduce-info"> 
-                    <div class="introduce-user">
-                        
-                            <a href="https://worstone.cn" target="_blank"><span>Live For Code</span></a>
-                        
-                    </div>
-                </div> 
-            </div> 
-            <div class="menu-list">
-                <ul>
-                    
-                        <li class=""><a href="/" class="" target="_self"><span class="iconfont icon-home-fill"></span>首页</a></li>
-                    
-                        <li class=" active "><a href="/category" class="" target="_self"><span class="iconfont icon-folder-fill"></span>分类</a></li>
-                    
-                        <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
-                    
-                        <li class=""><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
-                    
-                        <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
-                    
-                        <li class=""><a href="/about" class="" target="_self"><span class="iconfont icon-about-fill"></span>关于</a></li>
-                    
-                        <li class=""><a href="/atom.xml" class="" target="_blank"><span class="iconfont icon-rss"></span>订阅</a></li>
-                    
-                        <li class=""><a href="javascript:;" class="search" target="_self"><span class="iconfont icon-search-menu"></span>搜索</a></li>
-                    
-                        <li class=""><a href="/comment" class="" target="_self"><span class="iconfont icon-comments-fill"></span>留言板</a></li>
-                    
-                        <li class=""><a href="/friend" class="" target="_self"><span class="iconfont icon-link"></span>友情链接</a></li>
-                    
-                </ul> 
-            </div> 
-            <div class="menu-link">
-                <div class="box">
-                    <div class="image-box"></div>
-                </div>
-                
-                    <a name="知乎" href="https://zhihu.com/people/worstone-29" class="" target="_blank" data=""><span class="iconfont icon-zhihu"></span></a>
-                
-                    <a name="微博" href="https://weibo.com/u/5749847477" class="" target="_blank" data=""><span class="iconfont icon-weibo"></span></a>
-                
-                    <a name="QQ" href="javascript:;" class="image" target="_self" data="/image/sidebar/qq.png"><span class="iconfont icon-qq"></span></a>
-                
-                    <a name="微信" href="javascript:;" class="" target="_self" data=""><span class="iconfont icon-wechat"></span></a>
-                
-                    <a name="GitHub" href="https://github.com/first19326" class="" target="_blank" data=""><span class="iconfont icon-github"></span></a>
-                
-            </div> 
-        </nav>
-        <button class="menu-button-close"></button>
-        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
-                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
-            </svg>
-        </div>
-    </div>
-    <button class="menu-button-open">MENU</button>
-    <div class="menu-cover"></div>
-</div>
-    <link type="text/css" rel="stylesheet" href="/css/search.css">
-<script type="text/javascript" src="/js/iscroll.js"></script>
-<script type="text/javascript" src="/js/instantsearch.min.js"></script>
-<div class="search-window">
-    <div class="search-content">
-        <div class="search-content-icon">
-            <i class="iconfont icon-search"></i>
-        </div>
-        <div id="search-input" class="search-input"></div>
-    </div>
+	<div class="progress-bar-container">
+	
 
-    <div class="search-scroll">
-        <div class="search-result">
-            <div id="search-stats" class="search-stats"></div>
-            <div id="search-hits"></div>
-            <div id="search-pagination" class="search-pagination"></div>
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Theme Redefine
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <span class="search-close-icon">
-        <i class="iconfont icon-close"></i>
-    </span>
-</div>
-    <div id="tools">
-    <div class="progressbar-top"></div>
-    
-    <link type="text/css" rel="stylesheet" href="/css/APlayer.css">
-    <script type="text/javascript" src="/js/APlayer.min.js"></script>
-    <script type="text/javascript" src="/js/Meting.min.js"></script>
-    <script>
-        var meting_api = 'https://api.i-meto.com/meting/api?server=:server&type=:type&id=:id&auth=:auth&r=:r';
-    </script>
-    <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
 
-    <div class="wrap-right">
-    <div class="wrap-right-hide">
-         <div class="wrap-right-button favorites">
-            <div class="iconbox" switch="false">
-                <span class="iconfont icon-favorites"></span>
-            </div>
-            <span class="icontext">关注</span>
-         </div>
-        <div class="wrap-right-button search">
-            <div class="iconbox">
-                <span class="iconfont icon-search-menu"></span>
-            </div>
-            <span class="icontext">搜索</span>
-        </div>
-        <div class="wrap-right-button menu-button">
-            <div class="iconbox">
-                <span class="iconfont icon-menu"></span>
-            </div>
-            <span class="icontext">菜单</span>
-        </div>
-        <div class="wrap-right-button mode">
-            <div class="light">
-                <div class="iconbox">
-                    <span class="iconfont icon-daymode"></span>
-                </div>
-                <span class="icontext">浅色模式</span>
-            </div>
-            <div class="dark">
-                <div class="iconbox">
-                    <span class="iconfont icon-nightmode-fill"></span>
-                </div>
-                <span class="icontext">深色模式</span>
-            </div>
-        </div>
-        <div class="wrap-right-button bottom">
-            <div class="iconbox">
-                <span class="iconfont icon-top"></span>
-            </div>
-            <span class="icontext">跳至底部</span>
-        </div>
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
     </div>
-    <div class="wrap-right-show">
-        <div class="wrap-right-button set">
-            <div class="iconbox">
-                <span class="iconfont icon-setting"></span>
-            </div>
-            <span class="icontext">设置</span>
-        </div>
-        <div class="wrap-right-button top">
-            <div class="iconbox">
-                <span class="iconfont icon-top"></span>
-            </div>
-            <span class="icontext">返回顶部</span>
-        </div>
-    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="page-template-container">
+	
+
+	
+	<h1 class="page-title-header">
+	分类
+</h1>
+<div class="category-list-content">
+	
 </div>
-    <div class="loading"></div>
+<div class="category-comments">
+	
 </div>
-    <script>
-    window.config = {
-        GitHubUserName     : "first19326",
-        GitHubRepositories : "Hexo-LiveForCode",
+	
 
-        User             : "Live For Code",
-        UserAvatar       : "/image/sidebar/avatar.jpg",
-        WebsiteStartDate : "2020-01-01",
-        Home             : "https://worstone.cn",
+	<div class="page-template-content markdown-body">
+		
 
-        WebsiteTitleBlur         : "(◍´꒳`◍) Hi, Live For Code",
-        WebsiteTitleBlurTimeOut  : 500,
-        WebsiteTitleFocus        : "(*´∇｀*) 欢迎回来!",
-        WebsiteTitleFocusTimeOut : 1000,
-        WebsiteFavicon           : {
-            light : "/image/website/logo/logo.png",
-            dark  : "/image/website/logo/logo-dark.png"
-        },
+		
+	</div>
 
-        ProgressBar : {
-            id       : "topProgressBar",
-            color    : "#77B6FF",
-            height   : "2px",
-            duration : 0.2
-        },
+	<div class="page-template-comments">
+		
+	</div>
+</div>
 
-        Loading: {
-            rebound : {
-                tension  : 16,
-                friction : 5
-            },
-            spinner : {
-                id     : "spinner",
-                radius : 90,
-                sides  : 3,
-                depth  : 4,
-                colors : {
-                    background : "#F0F0F0",
-                    stroke     : "#272633",
-                    base       : "",
-                    child      : "#272633"
-                },
-                alwaysForward : true,
-                restAt        : 0.5,
-                renderBase    : false
-            }
-        },
-
-        HomeHeaderAnimationRendered : true,
-        HomeHeaderAnimation         : {
-            radius      : 15,
-            density     : 0.2,
-            color       : "rgba(255, 255, 255, .2)",
-            clearOffset : 0.3
-        },
-
-        BackAnimationRendered          : true,
-        IEBrowserBackAnimationRendered : false,
-        BackAnimation                  : {
-            colorSaturation  : "60%",
-            colorBrightness  : "50%",
-            colorAlpha       : 0.5,
-            colorCycleSpeed  : 5,
-            verticalPosition : "random",
-            horizontalSpeed  : 200,
-            ribbonCount      : 3,
-            strokeSize       : 0,
-            parallaxAmount   : -0.2,
-            animateSections  : true
-        },
-
-        HomeHeaderImage : [
-            
-                "/image/header/home.jpg",
-            
-                "/image/header/home.jpeg",
-            
-        ],
-        HomeBannerText  : "",
-
-        ArticleHeaderImage : [
-            
-                "/image/header/article.jpg",
-            
-        ],
-
-        OtherBannerText : "",
-
-        Error : {
-            icon    : "icon-swimming",
-            title   : "PAGE NOT FOUND",
-            content : [
-                
-                    "很抱歉，您访问的页面不存在！",
-                
-                    "可能是输入地址有误或该地址已变更。",
-                
-            ],
-            buttons : [
-                
-                    {
-                        icon  : "icon-home",
-                        text  : "返回首页",
-                        href  : "/",
-                        class : ""
-                    },
-                
-            ]
-        },
-
-        MenuNotice : {
-            enable : true,
-            notice : "简单地活着，肆意而又精彩！",
-            speed  : 20
-        },
-        MenuList : [
-            
-                {
-                    name   : "首页",
-                    icon   : "icon-home-fill",
-                    href   : "/",
-                    type   : "index",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "分类",
-                    icon   : "icon-folder-fill",
-                    href   : "/category",
-                    type   : "category",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "标签",
-                    icon   : "icon-discount-fill",
-                    href   : "/tag",
-                    type   : "tag",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "归档",
-                    icon   : "icon-calendar-fill",
-                    href   : "/archive",
-                    type   : "archive",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "赞赏",
-                    icon   : "icon-heart-fill",
-                    href   : "/donate",
-                    type   : "donate",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "关于",
-                    icon   : "icon-about-fill",
-                    href   : "/about",
-                    type   : "about",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "订阅",
-                    icon   : "icon-rss",
-                    href   : "/atom.xml",
-                    type   : "",
-                    class  : "",
-                    target : "_blank"
-                },
-            
-                {
-                    name   : "搜索",
-                    icon   : "icon-search-menu",
-                    href   : "javascript:;",
-                    type   : "",
-                    class  : "search",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "留言板",
-                    icon   : "icon-comments-fill",
-                    href   : "/comment",
-                    type   : "comment",
-                    class  : "",
-                    target : "_self"
-                },
-            
-                {
-                    name   : "友情链接",
-                    icon   : "icon-link",
-                    href   : "/friend",
-                    type   : "friend",
-                    class  : "",
-                    target : "_self"
-                },
-            
-        ],
-        MenuLink : [
-            
-                
-                    {
-                        name   : "知乎",
-                        icon   : "icon-zhihu",
-                        href   : "https://zhihu.com/people/worstone-29",
-                        class  : "",
-                        target : "_blank",
-                        image  : ""
-                    },
-                
-                    {
-                        name   : "微博",
-                        icon   : "icon-weibo",
-                        href   : "https://weibo.com/u/5749847477",
-                        class  : "",
-                        target : "_blank",
-                        image  : ""
-                    },
-                
-                    {
-                        name   : "QQ",
-                        icon   : "icon-qq",
-                        href   : "javascript:;",
-                        class  : "image",
-                        target : "_self",
-                        image  : "/image/sidebar/qq.png"
-                    },
-                
-                    {
-                        name   : "微信",
-                        icon   : "icon-wechat",
-                        href   : "javascript:;",
-                        class  : "",
-                        target : "_self",
-                        image  : ""
-                    },
-                
-                    {
-                        name   : "GitHub",
-                        icon   : "icon-github",
-                        href   : "https://github.com/first19326",
-                        class  : "",
-                        target : "_blank",
-                        image  : ""
-                    },
-                
-            
-        ],
-
-        FooterStyle : 2,
-        BottomText  : "<div><span class='face'>ღゝ◡╹)ノ♡</span></div><div>【人生若只如初见<span><i class='iconfont icon-like-fill'></i></span>何事秋风悲画扇】</div><div>&copy; 2020-2023 WorstOne. All Rights Reserved.</div>",
-
-        ConsoleList : [
-            
-                
-                    [
-                        
-                            
-                                "Based on cnblogs theme SimpleMemory.",
-                            
-                                "",
-                            
-                        
-                    ],
-                
-                    [
-                        
-                            
-                                "SimpleMemory Author:",
-                            
-                                "BNDong",
-                            
-                        
-                    ],
-                
-                    [
-                        
-                            
-                                "Theme:",
-                            
-                                "LiveForCode",
-                            
-                        
-                    ],
-                
-            
-        ],
-
-        FontIconExtend : "",
-
-        Donate : {
-            paypal  : "",
-            bitcoin : "",
-            alipay  : "/image/donate/alipay.png",
-            wechat  : "/image/donate/wechat.png"
-        },
-
-        Search : {
-            applicationID : "010C3EANT8",
-            apiKey        : "c7abab9f11b79102b9aff7fe6d41447d",
-            indexName     : "Notes",
-            hits          : {
-                page : 10
-            },
-            labels        : {
-                placeholder : "搜索",
-                empty       : "未发现与 「${query}」 相关的内容",
-                stats       : "${hits} 条相关条目，使用了 ${time} 毫秒",
-            }
-        }, 
-
-        Comment : {
-            switch : true,
-            type   : "Valine",
-        },
-
-        Waline : {
-            el              : ".comments-content",
-            serverURL       : "",
-            path            : window.location.pathname,
-            meta            : "['nick', 'mail', 'link']",
-            requiredMeta    : "['nick', 'mail']",
-            pageSize        : 10,
-            lang            : "zh-cn",
-            locale: {
-                admin       : "博主",
-                anonymous   : "匿名用户",
-                sofa        : "快来做第一个评论的人吧 ~",
-                placeholder : "你是我一生只会遇见一次的惊喜...",
-            },
-            dark            : "html[color-scheme='dark']",
-            search          : false,
-            pageview        : true,
-            comment         : true,
-            copyright       : false,
-        },
-
-        Valine : {
-            el             : ".comments-content",
-            appId          : "srhKtvWPQTWYKh3qX8G8M7v0-gzGzoHsz",
-            appKey         : "8uVSP1q6UlALVC5igYfIfv2h",
-            serverURLs     : "",
-            placeholder    : "你是我一生只会遇见一次的惊喜...",
-            avatar         : "mm",
-            meta           : "nick,mail,link",
-            requiredFields : "nick,mail",
-            pageSize       : 5,
-            lang           : "zh-cn",
-            visitor        : true,
-            enableQQ       : true
-        },
-
-        Tocbot : {
-            switch                : true,
-            tocSelector           : ".toc",
-            contentSelector       : ".article-body",
-            headingSelector       : "h1, h2, h3, h4, h5",
-            headingsOffset        : 0,
-            scrollSmooth          : true,
-            scrollSmoothOffset    : -5,
-            positionFixedSelector : ".toc",
-            positionFixedClass    : "toc-fixed",
-            fixedSidebarOffset    : "",
-        },
-
-        Require : {
-            baseUrl     : "/js/",
-            waitSeconds : 100
-        },
-
-        Music : {
-            type : "Meting"
-        },
-        APlayer : {
-            container : ".aplayer",
-            fixed     : true,
-            autoplay  : false,
-            loop      : "all",
-            order     : "random",
-            preload   : "auto",
-            volume    : 0.67,
-            mutex     : true,
-            lrcType   : 3,
-            audio     : [
-                
-                    {
-                        name   : "Endless Tears",
-                        artist : "CLIFF EDGE",
-                        cover  : "/music/cover/Endless Tears.jpg",
-                        url    : "/music/song/Endless Tears.mp3",
-                        lrc    : "/music/lrc/Endless Tears.lrc"
-                    },
-                
-            ]
-        },
-        Meting : {
-            api      : "https://api.i-meto.com/meting/api",
-            id       : "3778678", 
-            lrcshow  : false, 
-            server   : "netease", 
-            type     : "playlist", 
-            fixed    : true, 
-            autoplay : false, 
-            loop     : "all", 
-            order    : "random", 
-            preload  : "auto", 
-            volume   : 0.67, 
-            mutex    : true
-        },
-
-        Mouse : {
-            enable  : true,
-            options : {
-                size  : 6,
-                sizeF : 24
-            }
-        },
-
-        LazyLoad : {
-            default : "/image/website/lazyload.svg"
-        },
+<div class="paginator">
+	
+</div>
   
-        Style : {
-            aplayer          : "/css/APlayer.css",
-            archive          : "/css/archive.css",
-            base             : "/css/base.css",
-            clipboard        : "/css/clipboard.css",
-            code             : "/css/code.css",
-            donate           : "/css/donate.css",
-            fancybox         : "/css/jquery.fancybox.css",
-            footer           : "/css/footer.css",
-            iconfont         : "/iconfont/iconfont.css",
-            index            : "/css/index.css",
-            menuBubble       : "/css/menu-bubble.css",
-            mouse            : "/css/mouse.css",
-            page             : "/css/page.css",
-            post             : "/css/post.css",
-            search           : "/css/search.css",
-            tocbot           : "/css/tocbot.css",
-            valine           : "/css/valine.css",
-            waline           : "/css/waline.css",
-            walineCustom     : "/css/waline-custom.css"
-        },
+			</div>
 
-        Script: {
-            aplayer          : "/js/APlayer.min.js",
-            config           : "/js/require.config.js",
-            index            : "/js/index.js",
-            instantSearch    : "/js/instantsearch.min.js",
-            iscroll          : "/js/iscroll.js",
-            jQuery           : "/js/jquery-3.4.1.min.js",
-            loading          : "/js/loading.js",
-            meting           : "/js/Meting.min.js",
-            require          : "/js/require.min.js",
-            waline           : "/js/waline.mjs",
-            pageview         : "/js/pageview.mjs",
-            comment          : "/js/comment.mjs",
-        },
+			
+		</div>
 
-        Font: {
-            LongCang    : "/font/LongCang.css",
-            Monda       : "/font/Monda.css",
-            NotoSansSC  : "/font/NotoSansSC.css",
-            NotoSerifSC : "/font/NotoSerifSC.css",
-            Playball    : "/font/Playball.css",
-            PTMono      : "/font/PTMono.css",
-            Roboto      : "/font/Roboto.css",
-            RobotoSlab  : "/font/RobotoSlab.css",
-            Rosario     : "/font/Rosario.css",
-            UbuntuMono  : "/font/UbuntuMono.css"
-        },
-
-        Suffix : {
-            about : "简单地活着, 肆意又精彩."
-        },
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
             
-        Theme : {
-            url  : "https://github.com/first19326/Hexo-LiveForCode",
-            name : "Hexo - Live For Code"
-        }  
-    };
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">The Redefine Team</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        5 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
-    <script type="text/javascript" src="/js/index.js"></script>
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>
